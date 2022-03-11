@@ -24,8 +24,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('blogapp.urls')),
     path('customadmin/',include('customadmin.urls')),
-    path('get-token',CustomAuthToken.as_view())
-    # path('get-token',obtain_auth_token)
+    path('get-token',CustomAuthToken.as_view()),
+    path('api/',include('api.urls'))
 ]
 
 urlpatterns += static(settings.MEDIA_URL , document_root = settings.MEDIA_ROOT)

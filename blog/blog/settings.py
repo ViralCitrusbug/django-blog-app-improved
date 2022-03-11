@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blogapp.apps.BlogappConfig',
-    'customadmin.apps.CustomadminConfig',
+    'api.apps.ApiConfig',
     'widget_tweaks',
     'crispy_forms',
     'rest_framework',
@@ -148,7 +148,7 @@ LOGOUT_REDIRECT_URL = "auth:auth_login"
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 ## PAGINATION IN DJANGO REST FRAMEWORK
-REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 3
-}
+# REST_FRAMEWORK = {
+#     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+#     'PAGE_SIZE': 3
+# } 
