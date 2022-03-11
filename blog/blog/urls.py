@@ -20,12 +20,19 @@ from django.urls import path,include
 from blogapp.token import CustomAuthToken
 from rest_framework.authtoken.views import obtain_auth_token
 
+from rest_framework.routers import DefaultRouter
+from api import model_viewset
+
+router = DefaultRouter()
+router.register('post',model_viewset.PostViewSet,basename="post")
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('blogapp.urls')),
     path('customadmin/',include('customadmin.urls')),
     path('get-token',CustomAuthToken.as_view()),
     path('api/',include('api.urls'))
+    # path('api/',include(router.urls))
 ]
 
 urlpatterns += static(settings.MEDIA_URL , document_root = settings.MEDIA_ROOT)

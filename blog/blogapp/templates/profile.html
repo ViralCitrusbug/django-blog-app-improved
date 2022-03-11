@@ -6,8 +6,9 @@ Profile
 {% block body %}
 <div class="container mt-5">
     <div class="row">
-        <div class="col-3">
+        <div class="col-3"> {{token}} 
             {% if user.profile.picture|length > 1 %}
+           
                 <div><img class="w-100 rounded-circle" src="{{user.profile.picture.url}}" alt=""></div>
             {% else %}
             <div><img class="w-100 rounded-circle" src="{% static 'default-profile/default-profile.png' %}" alt=""></div>

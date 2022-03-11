@@ -9,15 +9,15 @@ from rest_framework.permissions import IsAuthenticated,IsAuthenticatedOrReadOnly
 from rest_framework.filters import SearchFilter
 from rest_framework.generics import ListAPIView
 from .mypagination import MyPagination
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 
 class PostListView(mixins.ListModelMixin,mixins.CreateModelMixin,generics.GenericAPIView):
 
     queryset = Post.objects.filter(soft_delete=False)
     serializer_class = PostSerializers
-    authentication_classes = [TokenAuthentication]
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
-    pagination_class = MyPagination
 
     def get(self,request):
         category = request.GET.get('category')
@@ -28,13 +28,16 @@ class PostListView(mixins.ListModelMixin,mixins.CreateModelMixin,generics.Generi
         return  self.list(request)
     
     def post(self,request):
+        # print(request.data)
+        # print(request.user.id,request.user.username)
         request.data.update({'user':request.user.id})
+        # print(request.data)
         return self.create(request)
 
 class UserListView(mixins.ListModelMixin,mixins.CreateModelMixin,generics.GenericAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    authentication_classes = [TokenAuthentication]
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self,request):
@@ -46,8 +49,8 @@ class UserListView(mixins.ListModelMixin,mixins.CreateModelMixin,generics.Generi
 class UserCRUD(mixins.RetrieveModelMixin,mixins.DestroyModelMixin,mixins.UpdateModelMixin,generics.GenericAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAdminUser]
+    authentication_classes = [JWTAuthentication]
+    # permission_classes = [IsAdminUser]
 
     def get(self,request,pk):
         return self.retrieve(request)
@@ -61,7 +64,7 @@ class UserCRUD(mixins.RetrieveModelMixin,mixins.DestroyModelMixin,mixins.UpdateM
 class ProfileListView(generics.GenericAPIView,mixins.ListModelMixin,mixins.CreateModelMixin):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
-    authentication_classes = [TokenAuthentication]
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
     # permission_classes = [IsAuthenticatedOrReadOnly]
     def get(self,request):
@@ -69,7 +72,7 @@ class ProfileListView(generics.GenericAPIView,mixins.ListModelMixin,mixins.Creat
 
 class ProfileCRUD(generics.GenericAPIView,mixins.RetrieveModelMixin,mixins.DestroyModelMixin,mixins.UpdateModelMixin):
     queryset = Profile.objects.all()
-    authentication_classes = [TokenAuthentication]
+    authentication_classes = [JWTAuthentication]
     # permission_classes = [IsAuthenticated]
     permission_classes = [IsAuthenticatedOrReadOnly]
     
@@ -86,8 +89,8 @@ class ProfileCRUD(generics.GenericAPIView,mixins.RetrieveModelMixin,mixins.Destr
 class PostCRUD(generics.GenericAPIView,mixins.DestroyModelMixin,mixins.UpdateModelMixin,mixins.RetrieveModelMixin):
     queryset = Post.objects.all()
     serializer_class = PostSerializers
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAdminUser]
+    authentication_classes = [JWTAuthentication]
+    # permission_classes = [IsAdminUser]
 
     def get_post(self,pk):
         try:
@@ -104,6 +107,10 @@ class PostCRUD(generics.GenericAPIView,mixins.DestroyModelMixin,mixins.UpdateMod
             return JsonResponse("Post Not Found")
 
     def put(self,request,pk):
+        response = request.data
+        response.update({
+            "user":request.user.pk
+        })
         return self.update(request)
     
     def delete(self,request,pk):

@@ -1,4 +1,5 @@
 from django.contrib import auth,messages
+from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import check_password,make_password
 from django.core.paginator import Paginator
@@ -44,15 +45,16 @@ class PostDetail(View):
         }
         return render(request,'blog-detail.html',context)
 
-class ProfileView(DetailView):
-    model = User
-    context_object_name = 'user'
-    template_name = 'profile.html'
+# class ProfileView(DetailView):
+#     model = User
+#     context_object_name = 'user'
+#     template_name = 'profile.html'
 
 class ProfileView(View):
     def get(self,request,pk):
         if request.user.is_authenticated:
             user_detail = User.objects.get(id=pk)
+            token = Token.objects.get(user=request.user)
             post = Post.objects.filter(user = request.user)
             if request.method == "POST":
                 Profile.objects.filter(user=request.user).delete()
@@ -62,7 +64,8 @@ class ProfileView(View):
             context = {
                 "user":user_detail,
                 "posts" : post,
-                "category":category_list
+                "category":category_list,
+                "token":token
             }
             return render(request,"profile.html",context)
         else:

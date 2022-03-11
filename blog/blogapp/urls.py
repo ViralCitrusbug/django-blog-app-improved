@@ -4,6 +4,7 @@ from django.urls import path
 # from ..api import generic_serialize_view
 from . import views,classviews
 
+app_name = "blog"
 
 urlpatterns = [
     # path("",views.home,name="home"),
@@ -32,28 +33,5 @@ urlpatterns = [
     path('post/filter/<str:category>',classviews.PostByCategory.as_view(),name="post-by-category"),
 
 
-    ##  API FUNCTION BASED VIEWS
-
-    # path('api/post-list',serialize_view.post_list,name="api-postlist"),
-    # path('api/users',serialize_view.user_list,name="api-user_list"),
-    # path('api/user/<pk>',serialize_view.user_crud,name="api-user-crud"),
-    # path('api/profile/<pk>',serialize_view.profile_crud,name="api-profile-crud"),
-
-    ## API CLASS BASED VIEWS (CUSTOM VIEWS)
-    
-    # path('api/post-list',serialize_classview.PostListView.as_view(),name="api-postlist"),
-    # path('api/user-list',serialize_classview.UserListView.as_view(),name="api-userlist"),
-    # path('api/user/<pk>',serialize_classview.UserCRUD.as_view(),name="api-user-crud"),
-    # path('api/profile-list',serialize_classview.ProfileList.as_view(),name="api-profile_list"),
-    # path('api/profile/<pk>',serialize_classview.ProfileCRUD.as_view(),name="api-profile-crud"),
-
-    ## API GENERIC CLASS BASED VIEWS
-
-    # path('api/post-list',generic_serialize_view.PostListView.as_view(),name="api-postlist"),
-    # path('api/user-list',generic_serialize_view.UserListView.as_view(),name="api-userlist"),
-    # path('api/user/<pk>',generic_serialize_view.UserCRUD.as_view(),name="api-user-crud"),
-    # path('api/profile-list',generic_serialize_view.ProfileListView.as_view(),name="api-profile_list"),
-    # path('api/profile/<pk>',generic_serialize_view.ProfileCRUD.as_view(),name="api-profile-crud"),
-    # path('api/post/<pk>',generic_serialize_view.PostCRUD.as_view(),name="api-post-crud"),
 
 ]
