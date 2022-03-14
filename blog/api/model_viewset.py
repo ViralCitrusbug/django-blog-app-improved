@@ -8,4 +8,3 @@ class PostViewSet(ModelViewSet):
     queryset = Post.objects.filter(soft_delete=False)
     serializer_class = PostSerializers
     authentication_class = [TokenAuthentication]
-    
