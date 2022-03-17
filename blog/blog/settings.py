@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+from os import path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -44,7 +45,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'rest_framework',
     'rest_framework.authtoken',
-    # 'rest_framework_simplejwt',
+    'rest_framework_simplejwt',
 
 ]
 
@@ -63,7 +64,9 @@ ROOT_URLCONF = 'blog.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['blogapp/templates'],
+        'DIRS': [
+            path.join(BASE_DIR, 'blog', 'templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

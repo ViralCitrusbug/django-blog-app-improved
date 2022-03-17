@@ -4,22 +4,25 @@ from rest_framework.authtoken.models import Token
 
 class PostSerializers(serializers.ModelSerializer):
     id = serializers.CharField(read_only=True)
-    soft_delete = serializers.CharField(read_only=True)
+    # user = serializers.CharField(read_only=True)
     class Meta:
         model = Post
-        fields=['title','post_image','content','category',"user","id","soft_delete"]
+        fields=['title','post_image','content','category',"id","user","soft_delete"]
     def create(self,validated_data):
         new_post = Post.objects.create(**validated_data)
         new_post.user = validated_data['user']
+        print(new_post.user)
         new_post.save()
         return new_post
 
 
     def update(self, instance, validated_data):
+        print("*")
         new_post = Post(**validated_data)
         new_post.id = instance.id
         new_post.user = instance.user
         new_post.save()
+        print(new_post.user)
         return new_post
 
 

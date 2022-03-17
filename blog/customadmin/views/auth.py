@@ -23,4 +23,4 @@ class LoginView(View,LoginRequiredMixin):
             messages.warning(request,"you are Not SuperUser")
         return render(request,"auth/custom-admin-login.html")
     def get(self,request):
-        return render(request,'auth/custom-admin-login.html')
+        return render(request,'authentication/custom-admin-login.html')
