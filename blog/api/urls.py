@@ -36,11 +36,12 @@ urlpatterns = [
 
     ## API CLASS BASED VIEWS (CUSTOM VIEWS)
     
-    # path('api/post-list',serialize_classview.PostListView.as_view(),name="api-postlist"),
-    # path('api/user-list',serialize_classview.UserListView.as_view(),name="api-userlist"),
-    # path('api/user/<pk>',serialize_classview.UserCRUD.as_view(),name="api-user-crud"),
-    # path('api/profile-list',serialize_classview.ProfileList.as_view(),name="api-profile_list"),
-    # path('api/profile/<pk>',serialize_classview.ProfileCRUD.as_view(),name="api-profile-crud"),
+    path('post-list',serialize_classview.PostListView.as_view(),name="api-postlist"),
+    path('user-list',serialize_classview.UserListView.as_view(),name="api-userlist"),
+    path('user/<pk>',serialize_classview.UserCRUD.as_view(),name="api-user-crud"),
+    path('profile-list',serialize_classview.ProfileList.as_view(),name="api-profile_list"),
+    path('profile/<pk>',serialize_classview.ProfileCRUD.as_view(),name="api-profile-crud"),
+    path('post/<pk>',serialize_classview.PostCRUD.as_view(),name="api-post-crud"),
 
     ## API GENERIC CLASS BASED VIEWS
 
@@ -53,12 +54,12 @@ urlpatterns = [
 
     ## GENERIC CLASS BASED VIEW
 
-    path('post-list',generic_serialize_view.PostListView.as_view(),name="api-postlist"),
-    path('user-list',generic_serialize_view.UserListView.as_view(),name="api-userlist"),
-    path('user/<pk>',generic_serialize_view.UserCRUD.as_view(),name="api-user-crud"),
-    path('profile-list',generic_serialize_view.ProfileListView.as_view(),name="api-profile_list"),
-    path('profile/<pk>',generic_serialize_view.ProfileCRUD.as_view(),name="api-profile-crud"),
-    path('post/<pk>',generic_serialize_view.PostCRUD.as_view(),name="api-post-crud"),
+    # path('post-list',generic_serialize_view.PostListView.as_view(),name="api-postlist"),
+    # path('user-list',generic_serialize_view.UserListView.as_view(),name="api-userlist"),
+    # path('user/<pk>',generic_serialize_view.UserCRUD.as_view(),name="api-user-crud"),
+    # path('profile-list',generic_serialize_view.ProfileListView.as_view(),name="api-profile_list"),
+    # path('profile/<pk>',generic_serialize_view.ProfileCRUD.as_view(),name="api-profile-crud"),
+    # path('post/<pk>',generic_serialize_view.PostCRUD.as_view(),name="api-post-crud"),
 
     ## SIMPLE JWT TOKEN 
 

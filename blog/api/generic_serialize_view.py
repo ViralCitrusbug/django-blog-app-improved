@@ -1,4 +1,6 @@
+import queue
 import re
+from winreg import QueryInfoKey
 from django.http import JsonResponse
 from rest_framework import mixins,generics
 from django.db.models import Q
@@ -43,12 +45,14 @@ class PostListView(mixins.ListModelMixin,mixins.CreateModelMixin,generics.Generi
         return self.create(request)
 
 class UserListView(mixins.ListModelMixin,mixins.CreateModelMixin,generics.GenericAPIView):
-    queryset = User.objects.raw('SELECT * FROM auth_user')
+    queryset = User.objects.all()
+    print(queryset)
     serializer_class = UserSerializer
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self,request):
+        print(self.queryset)
         return self.list(request)
     
     def post(self,request):
@@ -56,11 +60,15 @@ class UserListView(mixins.ListModelMixin,mixins.CreateModelMixin,generics.Generi
 
 class UserCRUD(mixins.RetrieveModelMixin,mixins.DestroyModelMixin,mixins.UpdateModelMixin,generics.GenericAPIView):
     queryset = User.objects.raw('SELECT * FROM auth_user')
+    # queryset = User.objects.all()
     serializer_class = UserSerializer
     authentication_classes = [TokenAuthentication]
     # permission_classes = [IsAdminUser]
 
     def get(self,request,pk):
+        query = f'SELECT * FROM auth_user WHERE id = {pk}'
+        # print(query)
+        queryset = User.objects.raw(query)
         return self.retrieve(request)
 
     def put(self,request,pk):
