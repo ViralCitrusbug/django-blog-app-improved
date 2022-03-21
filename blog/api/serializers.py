@@ -1,5 +1,3 @@
-from asyncore import read
-from gettext import install
 from rest_framework import serializers
 from blogapp.models import Post, Profile,User
 from rest_framework.authtoken.models import Token
@@ -30,9 +28,6 @@ class PostSerializers(serializers.ModelSerializer):
 
 class UserSerializer(serializers.Serializer):
 
-    # class Meta:
-    #     model = User
-    #     fields = ['first_name','last_name','username','email','password',"id"]
     first_name = serializers.CharField(max_length=20)
     last_name = serializers.CharField(max_length=20)
     username = serializers.CharField(max_length=20)
@@ -42,9 +37,20 @@ class UserSerializer(serializers.Serializer):
 
 
     def create(self, validated_data):
-        user = User.objects.create(**validated_data)
-        user.password = make_password(validated_data['password'])
-        user.save()
+        # user = User.objects.create(**validated_data)
+        first_name = validated_data.get('first_name')
+        last_name = validated_data.get('last_name')
+        user_name = validated_data.get('username')
+        password = validated_data.get('password')
+        email = validated_data.get('email')
+        print(validated_data)
+        query = f"INSERT INTO auth_user(first_name, last_name,username,email,password,is_superuser,is_staff,is_active,date_joined)\
+                 VALUES ('{first_name}','{last_name}','{user_name}','{email}','{password}','1','0','1','2022-03-11 11:16:00+05:30');"
+        print("**************************")
+        print(query)
+        print("**************************")
+        user = User.objects.raw(query)
+        print(user)
         return user
 
     def update(self, user, validated_data):

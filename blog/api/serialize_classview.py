@@ -30,10 +30,18 @@ class UserListView(APIView):
         return Response(serialize.data)
     
     def post(self,request):
-        serialize = UserSerializer(data=request.data)
+        data = {}
+        data['first_name']=request.data.get('first_name')
+        data['last_name']=request.data.get('last_name')
+        data['username']=request.data.get('username')
+        data['email']=request.data.get('email')
+        data['password']=request.data.get('password')
+        print(data)
+        serialize = UserSerializer(data=data)
         if serialize.is_valid():
             serialize.save()
-            return Response(serialize.data)
+            print("#########################################################")
+            return Response("DOne")
         else:
             return Response(serialize.errors)
 
@@ -77,6 +85,7 @@ class UserCRUD(APIView):
             serializer = UserSerializer(response,data=request.data)
             if serializer.is_valid():
                 serializer.save()
+                
                 return Response(serializer.data)
             else:
                 return Response(serializer.errors)          
