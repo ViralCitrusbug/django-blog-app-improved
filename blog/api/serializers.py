@@ -1,6 +1,6 @@
+from ast import Str
 from rest_framework import serializers
 from blogapp.models import Post, Profile,User
-from rest_framework.authtoken.models import Token
 from django.contrib.auth.hashers import make_password
 
 class PostSerializers(serializers.ModelSerializer):
@@ -12,17 +12,14 @@ class PostSerializers(serializers.ModelSerializer):
     def create(self,validated_data):
         new_post = Post.objects.create(**validated_data)
         new_post.user = validated_data['user']
-        print(new_post.user)
         new_post.save()
         return new_post
-
 
     def update(self, post, validated_data):
         new_post = Post(**validated_data)
         new_post.user = post.get('user')
         new_post.id = post.get('id')
         new_post.save()
-        print(new_post.user)
         return new_post
 
 
@@ -43,15 +40,14 @@ class UserSerializer(serializers.Serializer):
         user_name = validated_data.get('username')
         password = validated_data.get('password')
         email = validated_data.get('email')
-        print(validated_data)
         query = f"INSERT INTO auth_user(first_name, last_name,username,email,password,is_superuser,is_staff,is_active,date_joined)\
-                 VALUES ('{first_name}','{last_name}','{user_name}','{email}','{password}','1','0','1','2022-03-11 11:16:00+05:30');"
-        print("**************************")
-        print(query)
-        print("**************************")
+                  VALUES    ('{first_name}','{last_name}','{user_name}','{email}','{password}','1','0','1','2022-03-11 11:16:00+05:30');"
         user = User.objects.raw(query)
-        print(user)
-        return user
+        user = user.__dict__
+        value = str(user.get('raw_query')).split('VALUES')[1].replace(';',"").replace("(","").replace(")","").split(',')
+        key = str(user.get('raw_query')).split('VALUES')[0].split('(')[1].replace(')',"").split(',')
+        new_user = dict(zip(key,value))
+        return new_user
 
     def update(self, user, validated_data):
         new_user = User(**validated_data)

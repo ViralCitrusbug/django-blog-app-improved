@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
 from rest_framework.response import Response
+from django.contrib.auth.hashers import make_password
 
 class PostListView(APIView):
     authentication_classes = [TokenAuthentication]
@@ -35,13 +36,11 @@ class UserListView(APIView):
         data['last_name']=request.data.get('last_name')
         data['username']=request.data.get('username')
         data['email']=request.data.get('email')
-        data['password']=request.data.get('password')
-        print(data)
+        data['password']=make_password(request.data.get('password'))
         serialize = UserSerializer(data=data)
         if serialize.is_valid():
             serialize.save()
-            print("#########################################################")
-            return Response("DOne")
+            return Response(serialize.data)
         else:
             return Response(serialize.errors)
 
